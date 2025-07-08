@@ -1,10 +1,11 @@
 // src/main.js
 import GameLoop from "./core/GameLoop.js";
+import TableView from "./ui/TableView.js";
 
-function onFrame(deltaTime) {
-  console.log(`每幀時間差：${deltaTime.toFixed(3)}s`);
-}
-
-// 訂閱並啟動
-GameLoop.subscribe(onFrame);
+// 啟動遊戲迴圈
 GameLoop.start();
+
+// 初始化牌桌
+const app = document.getElementById('app');
+const tableView = new TableView(app);
+tableView.init();
