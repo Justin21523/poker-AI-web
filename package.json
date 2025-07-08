@@ -4,18 +4,20 @@
     "description": "Offline-capable modular poker AI website built with Vanilla JavaScript.",
     "main": "src/main.js",
     "scripts": {
-      "start": "echo 'Open index.html manually'",
-      "test": "echo 'Add test commands here'"
+        "start": "live-server --port=3000 --entry-file=index.html",
+        "test": "echo 'Add test commands here'"
     },
     "keywords": [
-      "vanilla-js",
-      "poker",
-      "AI",
-      "behavior-tree",
-      "offline",
-      "modular"
+        "vanilla-js",
+        "poker",
+        "AI",
+        "behavior-tree",
+        "offline",
+        "modular"
     ],
     "author": "Justin21523",
-    "license": "MIT"
-  }
-  
+    "license": "MIT",
+    "devDependencies": {
+        "live-server": "^1.2.1"
+    }
+}
