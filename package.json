@@ -1,0 +1,21 @@
+{
+    "name": "poker-ai-web",
+    "version": "0.1.0",
+    "description": "Offline-capable modular poker AI website built with Vanilla JavaScript.",
+    "main": "src/main.js",
+    "scripts": {
+      "start": "echo 'Open index.html manually'",
+      "test": "echo 'Add test commands here'"
+    },
+    "keywords": [
+      "vanilla-js",
+      "poker",
+      "AI",
+      "behavior-tree",
+      "offline",
+      "modular"
+    ],
+    "author": "Justin21523",
+    "license": "MIT"
+  }
+  
