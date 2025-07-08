@@ -1,0 +1,34 @@
+/* assets/styles/layout.css */
+/* 置中容器 */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+/* Flex 置中 */
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grid 3x3 */
+.grid-3x3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: var(--space-sm);
+}
+
+/* 基本間距公用 class */
+.mt-sm {
+  margin-top: var(--space-sm);
+}
+.mb-sm {
+  margin-bottom: var(--space-sm);
+}
+.p-md {
+  padding: var(--space-md);
+}

@@ -1,0 +1,30 @@
+/* assets/styles/variables.css */
+:root {
+  /* 背景、表面、文字主色 */
+  --color-bg: #0a5; /* 綠色桌布 */
+  --color-surface: #fff; /* 純白 */
+  --color-text: #222; /* 深灰文字 */
+  --color-primary: #06c; /* 輔助藍色按鈕／連結 */
+
+  /* 間距系統 */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+
+  /* 圓角／陰影 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  /* 字體 */
+  --font-family: "Noto Sans TC", sans-serif;
+  --font-size-base: 1rem;
+}
+
+[data-theme="dark"] {
+  --color-bg: #013;
+  --color-surface: #111;
+  --color-text: #eee;
+  --color-primary: #09f;
+}

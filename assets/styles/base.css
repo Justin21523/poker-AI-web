@@ -1,0 +1,43 @@
+/* assets/styles/base.css */
+/* 全站基本排版與字體 */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  margin-bottom: var(--space-sm);
+}
+
+p {
+  margin-bottom: var(--space-md);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
