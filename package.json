@@ -1,11 +1,12 @@
 {
     "name": "poker-ai-web",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "description": "Offline-capable modular poker AI website built with Vanilla JavaScript.",
     "main": "src/main.js",
     "scripts": {
-        "start": "live-server --port=3000 --entry-file=index.html",
-        "test": "echo 'Add test commands here'"
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
     },
     "keywords": [
         "vanilla-js",
@@ -18,6 +19,7 @@
     "author": "Justin21523",
     "license": "MIT",
     "devDependencies": {
-        "live-server": "^1.2.1"
+        "live-server": "^1.2.1",
+        "vite": "^5.4.19"
     }
 }
