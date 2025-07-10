@@ -1,0 +1,36 @@
+/* 卡牌基礎樣式 */
+.card {
+  width: 60px;
+  height: 90px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+/* 背面 */
+.card.back {
+  background: var(--color-primary) url('../images/card-back.png') no-repeat center/cover;
+}
+
+/* 正面 */
+.card.face {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid #aaa;
+}
+
+/* 角標文字 */
+.card-corner {
+  position: absolute;
+  font-size: 0.75rem;
+}
+.card-corner.top-left {
+  top: var(--space-xs);
+  left: var(--space-xs);
+}
+.card-corner.bottom-right {
+  bottom: var(--space-xs);
+  right: var(--space-xs);
+  transform: rotate(180deg);
+}
