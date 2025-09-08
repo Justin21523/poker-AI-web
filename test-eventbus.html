@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventBus System Tests</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #333;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        color: #4a5568;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+      }
+
+      .test-controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      button {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .console-output {
+        background: #1a1a1a;
+        color: #00ff00;
+        padding: 20px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        min-height: 400px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .status {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        font-weight: 600;
+      }
+
+      .status.ready {
+        background: #e6fffa;
+        color: #234e52;
+        border-left: 4px solid #38b2ac;
+      }
+
+      .status.running {
+        background: #faf5e4;
+        color: #744210;
+        border-left: 4px solid #ed8936;
+      }
+
+      .status.complete {
+        background: #f0fff4;
+        color: #22543d;
+        border-left: 4px solid #38a169;
+      }
+
+      .demo-section {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f7fafc;
+        border-radius: 8px;
+        border-left: 4px solid #4299e1;
+      }
+
+      .demo-section h3 {
+        margin-top: 0;
+        color: #2d3748;
+      }
+
+      .event-demo {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-top: 15px;
+      }
+
+      .demo-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .demo-output {
+        background: white;
+        padding: 15px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        min-height: 150px;
+        overflow-y: auto;
+        font-family: monospace;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎮 EventBus System Tests</h1>
+
+      <div id="status" class="status ready">
+        <span>🟢</span>
+        <span>Ready to run tests</span>
+      </div>
+
+      <div class="test-controls">
+        <button onclick="runAllTests()">🚀 Run All Tests</button>
+        <button onclick="runBasicTests()">🧪 Basic Tests</button>
+        <button onclick="runAdvancedTests()">⚡ Advanced Tests</button>
+        <button onclick="runPerformanceTests()">📊 Performance Tests</button>
+        <button onclick="clearConsole()">🧹 Clear Console</button>
+      </div>
+
+      <div class="console-output" id="console-output">
+        Welcome to EventBus Testing Environment! Click "Run All Tests" to start
+        the comprehensive test suite, or choose specific test categories from
+        the buttons above. The console will show detailed test results
+        including: ✅ Passed tests ❌ Failed tests 📊 Performance metrics 🔍
+        Debug information
+      </div>
+
+      <div class="demo-section">
+        <h3>🎯 Live EventBus Demo</h3>
+        <p>
+          Try the EventBus system in real-time with these interactive demos:
+        </p>
+
+        <div class="event-demo">
+          <div class="demo-controls">
+            <button onclick="demoBasicEvent()">📢 Emit Basic Event</button>
+            <button onclick="demoPriorityEvent()">⚡ Priority Demo</button>
+            <button onclick="demoOnceEvent()">🔂 Once Event Demo</button>
+            <button onclick="demoErrorHandling()">⚠️ Error Handling</button>
+            <button onclick="clearDemoOutput()">🧹 Clear Demo</button>
+          </div>
+
+          <div class="demo-output" id="demo-output">
+            Demo output will appear here...
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { EventBus } from "./src/core/events/EventBus.js";
+      import {
+        GAME_EVENTS,
+        PLAYER_EVENTS,
+        UI_EVENTS,
+      } from "./src/core/events/EventTypes.js";
+      import { runEventBusTests } from "./tests/unit/EventBus.test.js";
+
+      // Global variables for demo
+      let demoEventBus;
+      let demoOutput;
+
+      // Initialize demo EventBus
+      function initDemo() {
+        demoEventBus = new EventBus();
+        demoEventBus.setDebugMode(true);
+        demoOutput = document.getElementById("demo-output");
+
+        // Set up some demo listeners
+        demoEventBus.on("demo:basic", (data) => {
+          appendToDemo(`🟢 Basic event received: ${JSON.stringify(data)}`);
+        });
+
+        demoEventBus.on(
+          "demo:priority",
+          () => {
+            appendToDemo(`🥉 Low priority listener executed`);
+          },
+          1
+        );
+
+        demoEventBus.on(
+          "demo:priority",
+          () => {
+            appendToDemo(`🥇 High priority listener executed`);
+          },
+          10
+        );
+
+        demoEventBus.on(
+          "demo:priority",
+          () => {
+            appendToDemo(`🥈 Medium priority listener executed`);
+          },
+          5
+        );
+
+        demoEventBus.once("demo:once", () => {
+          appendToDemo(`🔂 This will only show once!`);
+        });
+
+        demoEventBus.on("demo:error", () => {
+          throw new Error("Intentional demo error");
+        });
+
+        demoEventBus.on("demo:error", () => {
+          appendToDemo(`✅ This listener still works despite the error above`);
+        });
+      }
+
+      function appendToDemo(message) {
+        const timestamp = new Date().toLocaleTimeString();
+        demoOutput.textContent += `[${timestamp}] ${message}\n`;
+        demoOutput.scrollTop = demoOutput.scrollHeight;
+      }
+
+      // Console override for capturing test output
+      const originalConsole = { ...console };
+      const consoleOutput = document.getElementById("console-output");
+
+      function overrideConsole() {
+        [
+          "log",
+          "error",
+          "warn",
+          "group",
+          "groupEnd",
+          "time",
+          "timeEnd",
+        ].forEach((method) => {
+          console[method] = (...args) => {
+            const message = args.join(" ");
+            const timestamp = new Date().toLocaleTimeString();
+
+            let prefix = "";
+            if (method === "error") prefix = "❌ ";
+            else if (method === "warn") prefix = "⚠️ ";
+            else if (method === "group") prefix = "📁 ";
+
+            consoleOutput.textContent += `[${timestamp}] ${prefix}${message}\n`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+
+            // Also call original for dev tools
+            originalConsole[method](...args);
+          };
+        });
+      }
+
+      function restoreConsole() {
+        Object.assign(console, originalConsole);
+      }
+
+      function updateStatus(message, type = "ready") {
+        const status = document.getElementById("status");
+        const icons = {
+          ready: "🟢",
+          running: "🟡",
+          complete: "✅",
+          error: "❌",
+        };
+
+        status.className = `status ${type}`;
+        status.innerHTML = `<span>${icons[type]}</span><span>${message}</span>`;
+      }
+
+      // Test runner functions
+      window.runAllTests = async function () {
+        updateStatus("Running all tests...", "running");
+        overrideConsole();
+
+        try {
+          await runEventBusTests();
+          updateStatus("All tests completed successfully!", "complete");
+        } catch (error) {
+          updateStatus("Tests completed with errors", "error");
+          console.error("Test suite error:", error);
+        } finally {
+          restoreConsole();
+        }
+      };
+
+      window.runBasicTests = function () {
+        updateStatus("Running basic tests...", "running");
+        overrideConsole();
+
+        // Run a subset of basic tests
+        const testBus = new EventBus();
+        console.log("🧪 Running Basic EventBus Tests\n");
+
+        // Test 1: Basic subscription and emission
+        let testResult = false;
+        testBus.on("basic:test", () => {
+          testResult = true;
+        });
+        testBus.emit("basic:test");
+        console.log(
+          testResult
+            ? "✅ Basic subscription/emission: PASS"
+            : "❌ Basic subscription/emission: FAIL"
+        );
+
+        // Test 2: Multiple listeners
+        let count = 0;
+        testBus.on("multi:test", () => count++);
+        testBus.on("multi:test", () => count++);
+        testBus.emit("multi:test");
+        console.log(
+          count === 2
+            ? "✅ Multiple listeners: PASS"
+            : "❌ Multiple listeners: FAIL"
+        );
+
+        // Test 3: Unsubscription
+        const listener = () => count++;
+        testBus.on("unsub:test", listener);
+        testBus.off("unsub:test", listener);
+        const beforeCount = count;
+        testBus.emit("unsub:test");
+        console.log(
+          count === beforeCount
+            ? "✅ Unsubscription: PASS"
+            : "❌ Unsubscription: FAIL"
+        );
+
+        console.log("\n📊 Basic tests completed!");
+        updateStatus("Basic tests completed", "complete");
+        restoreConsole();
+      };
+
+      window.runAdvancedTests = function () {
+        updateStatus("Running advanced tests...", "running");
+        overrideConsole();
+
+        const testBus = new EventBus();
+        console.log("⚡ Running Advanced EventBus Tests\n");
+
+        // Test priority system
+        const order = [];
+        testBus.on("priority:test", () => order.push("low"), 1);
+        testBus.on("priority:test", () => order.push("high"), 10);
+        testBus.on("priority:test", () => order.push("medium"), 5);
+        testBus.emit("priority:test");
+
+        const priorityCorrect =
+          JSON.stringify(order) === JSON.stringify(["high", "medium", "low"]);
+        console.log(
+          priorityCorrect
+            ? "✅ Priority system: PASS"
+            : "❌ Priority system: FAIL"
+        );
+
+        // Test once listeners
+        let onceCount = 0;
+        testBus.once("once:test", () => onceCount++);
+        testBus.emit("once:test");
+        testBus.emit("once:test");
+        console.log(
+          onceCount === 1
+            ? "✅ Once listeners: PASS"
+            : "❌ Once listeners: FAIL"
+        );
+
+        // Test error isolation
+        let errorHandled = true;
+        let goodListenerExecuted = false;
+
+        testBus.on("error:test", () => {
+          throw new Error("Test error");
+        });
+        testBus.on("error:test", () => {
+          goodListenerExecuted = true;
+        });
+
+        try {
+          testBus.emit("error:test");
+        } catch {
+          errorHandled = false;
+        }
+
+        console.log(
+          errorHandled && goodListenerExecuted
+            ? "✅ Error isolation: PASS"
+            : "❌ Error isolation: FAIL"
+        );
+
+        console.log("\n📊 Advanced tests completed!");
+        updateStatus("Advanced tests completed", "complete");
+        restoreConsole();
+      };
+
+      window.runPerformanceTests = function () {
+        updateStatus("Running performance tests...", "running");
+        overrideConsole();
+
+        console.log("📊 Running Performance Tests\n");
+
+        const testBus = new EventBus();
+        const listenerCount = 1000;
+        const emissionCount = 1000;
+
+        console.time("Add 1000 listeners");
+        for (let i = 0; i < listenerCount; i++) {
+          testBus.on("perf:test", () => {});
+        }
+        console.timeEnd("Add 1000 listeners");
+
+        console.time("Emit 1000 events");
+        for (let i = 0; i < emissionCount; i++) {
+          testBus.emit("perf:test", { iteration: i });
+        }
+        console.timeEnd("Emit 1000 events");
+
+        // Memory usage test
+        const initialMemory = performance.memory
+          ? performance.memory.usedJSHeapSize
+          : "N/A";
+        console.log(`📈 Memory usage: ${initialMemory} bytes`);
+
+        // Test cleanup performance
+        console.time("Clear all listeners");
+        testBus.clear();
+        console.timeEnd("Clear all listeners");
+
+        console.log("\n📊 Performance tests completed!");
+        updateStatus("Performance tests completed", "complete");
+        restoreConsole();
+      };
+
+      window.clearConsole = function () {
+        consoleOutput.textContent = "Console cleared.\n";
+        updateStatus("Console cleared", "ready");
+      };
+
+      // Demo functions
+      window.demoBasicEvent = function () {
+        const data = {
+          message: "Hello from EventBus!",
+          timestamp: Date.now(),
+          random: Math.floor(Math.random() * 100),
+        };
+        demoEventBus.emit("demo:basic", data);
+      };
+
+      window.demoPriorityEvent = function () {
+        appendToDemo("🎯 Emitting priority event (watch the order):");
+        demoEventBus.emit("demo:priority");
+      };
+
+      window.demoOnceEvent = function () {
+        appendToDemo("🔂 Emitting once event:");
+        demoEventBus.emit("demo:once");
+        appendToDemo("🔂 Emitting once event again (should not trigger):");
+        demoEventBus.emit("demo:once");
+      };
+
+      window.demoErrorHandling = function () {
+        appendToDemo("⚠️ Emitting event with error handler:");
+        demoEventBus.emit("demo:error");
+      };
+
+      window.clearDemoOutput = function () {
+        demoOutput.textContent = "Demo output cleared.\n";
+      };
+
+      // Initialize everything when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        initDemo();
+        console.log("🎮 EventBus Test Environment Initialized");
+        console.log("📝 Ready to run tests and demos");
+      });
+
+      // Make EventBus available globally for debugging
+      window.EventBus = EventBus;
+      window.GAME_EVENTS = GAME_EVENTS;
+      window.PLAYER_EVENTS = PLAYER_EVENTS;
+      window.UI_EVENTS = UI_EVENTS;
+    </script>
+  </body>
+</html>
