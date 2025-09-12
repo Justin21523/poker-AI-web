@@ -169,6 +169,29 @@ export const SYSTEM_EVENTS = {
   NETWORK_ONLINE: "system:network_online",
   NETWORK_OFFLINE: "system:network_offline",
 
+  // GameLoop events
+  GAMELOOP_START: "system:gameloop_start",
+  GAMELOOP_STOP: "system:gameloop_stop",
+  GAMELOOP_PAUSE: "system:gameloop_pause",
+  GAMELOOP_RESUME: "system:gameloop_resume",
+  GAMELOOP_CONFIG_UPDATE: "system:gameloop_config_update",
+  GAMELOOP_SUBSCRIBER_ERROR: "system:gameloop_subscriber_error",
+  GAMELOOP_DISPOSED: "system:gameloop_disposed",
+
+  // TimeManager events
+  TIME_UPDATE: "system:time_update",
+  TIME_SCALE_CHANGED: "system:time_scale_changed",
+  TIME_MANAGER_DISPOSED: "system:time_manager_disposed",
+
+  // Timer events
+  TIMER_CREATED: "system:timer_created",
+  TIMER_TRIGGERED: "system:timer_triggered",
+  TIMER_COMPLETED: "system:timer_completed",
+  TIMER_REMOVED: "system:timer_removed",
+  ALL_TIMERS_PAUSED: "system:all_timers_paused",
+  ALL_TIMERS_RESUMED: "system:all_timers_resumed",
+  ALL_TIMERS_CLEARED: "system:all_timers_cleared",
+
   // Error events
   ERROR_OCCURRED: "system:error_occurred",
   WARNING_OCCURRED: "system:warning_occurred",
