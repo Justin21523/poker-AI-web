@@ -19,6 +19,7 @@
  */
 export const GAME_EVENTS = {
   // Game lifecycle events
+  GAME_INITIALIZED: "game:initialized",
   GAME_START: "game:start",
   GAME_END: "game:end",
   GAME_PAUSE: "game:pause",
@@ -36,6 +37,18 @@ export const GAME_EVENTS = {
   CARDS_DEALT: "game:cards_dealt",
   CARDS_SHUFFLED: "game:cards_shuffled",
   DECK_EMPTY: "game:deck_empty",
+  DECK_INITIALIZED: "game:deck_initialized",
+  DECK_RESET: "game:deck_reset",
+  DISCARD_SHUFFLED: "game:discard_shuffled",
+
+  // Poker-specific events
+  BLINDS_POSTED: "game:blinds_posted",
+  FLOP_DEALT: "game:flop_dealt",
+  TURN_DEALT: "game:turn_dealt",
+  RIVER_DEALT: "game:river_dealt",
+  SHOWDOWN_START: "game:showdown_start",
+  HAND_WON: "game:hand_won",
+  HAND_ENDED: "game:hand_ended",
 
   // Game result events
   WINNER_DECLARED: "game:winner_declared",
@@ -60,6 +73,14 @@ export const PLAYER_EVENTS = {
   PLAYER_CARD_DRAWN: "player:card_drawn",
   PLAYER_PASS: "player:pass",
   PLAYER_INVALID_MOVE: "player:invalid_move",
+
+  // Poker player actions
+  PLAYER_FOLD: "player:fold",
+  PLAYER_CHECK: "player:check",
+  PLAYER_CALL: "player:call",
+  PLAYER_RAISE: "player:raise",
+  PLAYER_BET: "player:bet",
+  PLAYER_ALL_IN: "player:all_in",
 
   // Player state changes
   PLAYER_TURN_START: "player:turn_start",
