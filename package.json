@@ -8,12 +8,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage",
-    "demo:dev": "npm --prefix demo-app run dev",
-    "demo:build": "npm --prefix demo-app run build",
-    "demo:preview": "npm --prefix demo-app run preview",
-    "dev": "npm --prefix demo-app run dev",
-    "build": "npm --prefix demo-app run build"
+    "test:coverage": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
