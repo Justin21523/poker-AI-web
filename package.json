@@ -8,7 +8,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build --base /poker-AI-web/"
   },
   "repository": {
     "type": "git",
