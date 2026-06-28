@@ -10,7 +10,10 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "dev": "vite --host 0.0.0.0",
-    "build": "vite build --base /poker-AI-web/"
+    "build": "vite build --base /poker-AI-web/",
+    "demo:dev": "python3 -m http.server 4173 --directory demo-app",
+    "demo:build": "node -e \"require('fs').accessSync('demo-app/index.html')\"",
+    "demo:preview": "python3 -m http.server 4173 --directory demo-app"
   },
   "repository": {
     "type": "git",
